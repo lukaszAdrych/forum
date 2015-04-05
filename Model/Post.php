@@ -76,7 +76,7 @@ class Model__Post extends Model__DB {
                 INSERT into post (tresc, data, status, id_user, id_topic)
                 VALUES (:tresc, :data, :status, :id_user, :id_topic)"
                 );
-            
+                
             $stmt->execute(array(':tresc' => $this->tresc,
                 ':data' => $this->data,
                 ':status' => $this->status,

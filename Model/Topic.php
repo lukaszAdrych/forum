@@ -95,7 +95,7 @@ class Model__Topic extends Model__DB {
         $stmt->execute();
         
         $topic = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if(count($uzytkownik) == 1) {
+        if(count($topic) == 1) {
             $this->id = $topic[0]['id'];
             $this->nick = $topic[0]['nazwa'];
             $this->email = $topic[0]['status'];
@@ -108,9 +108,8 @@ class Model__Topic extends Model__DB {
     
     public function getPosts() {
         
-        $stmt = $this->pdo->prepare("SELECT * FROM post WHERE id_user = $this->id");
+        $stmt = $this->pdo->prepare("SELECT * FROM post WHERE id_topic = $this->id");
         $stmt->execute();
-        
         $posty = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $this->zmienNaObiekty($posty);

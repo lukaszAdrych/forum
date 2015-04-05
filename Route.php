@@ -17,32 +17,35 @@ class Route {
     
     private $parametr;
     
-    private $host;
 
 
-    public function __construct($uri, $host) {
+    public function __construct($uri) {
         $tab = explode('/', $uri);
         
-        $this->katalog = $tab[0];
-        if(isset($tab[1])) {
-            $this->parametr = $tab[1];
+        $this->katalog = $tab[1];
+        if(isset($tab[2])) {
+            $this->parametr = $tab[2];
         }
         
-        $this->host = $host;
     }
     
     public function uruchomController() {
         
         switch ($this->katalog) {
             case "":
-                $controler = new Controler__Glowna($this->host);
+                $controler = new Controler__Glowna($this->katalog);
                 $controler->wykonaj();
                 
                 break;
             case "rejestracja":
+                $controler = new Controler__Rejestracja($this->katalog);
+                $controler->wykonaj();
                 
                 break;
             case "temat":
+                
+                $controler = new Controler__Topic($this->katalog, $this->parametr);
+                $controler->wykonaj();
                 
                 break;
             case "konto":

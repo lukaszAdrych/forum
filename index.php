@@ -23,6 +23,6 @@ function __autoload( $classname ) {
  
  
  
- $route = new Route($_SERVER["REQUEST_URI"], $_SERVER['HTTP_HOST']);
+ $route = new Route($_SERVER["REQUEST_URI"]);
  $route->uruchomController();
  

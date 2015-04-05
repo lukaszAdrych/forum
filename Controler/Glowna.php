@@ -14,17 +14,21 @@
 class Controler__Glowna extends Controler__Controler {
     //put your code here
     
-    public function __construct($host) {  
-        parent::__construct();
+    public function __construct($katalog) {  
         
-        
-        
+        $this->katalog = $katalog;
+        $this->sciezka_css = "style.css";
+        parent::__construct(); 
     }
     
     public function wykonaj() {
         
-        $this->pobierzTematy();
-        $this->smarty->display('glowny.tpl');
+        if(isset($this->tablica_post['nazwa_tematu'])) {
+            $this->dodajNowyTemat($this->tablica_post['nazwa_tematu']);
+        }
+        
+        $this->pobierzTematy();      
+        $this->generujStrone();
     }
     
     private function pobierzTematy() {
@@ -35,5 +39,14 @@ class Controler__Glowna extends Controler__Controler {
         $tematy = $portal->getTopics(array('status' => 'aktywny'));
         $this->smarty->assign('tematy', $tematy);
         
+    }
+    
+    private function dodajNowyTemat($nazwa_tematu) {
+        
+        $nowy_temat = new Model__Topic();
+        $nowy_temat->setNazwa($nazwa_tematu);
+        $nowy_temat->setId_user(1);
+        $nowy_temat->setStatus('aktywny');
+        $nowy_temat->save();
     }
 }
