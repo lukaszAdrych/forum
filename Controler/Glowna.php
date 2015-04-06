@@ -27,7 +27,9 @@ class Controler__Glowna extends Controler__Controler {
             $this->dodajNowyTemat($this->tablica_post['nazwa_tematu']);
         }
         
-        $this->pobierzTematy();      
+        $this->pobierzTematy();
+        var_dump("<br>PROSZE!!!!!!!!!");
+        var_dump($_SESSION);
         $this->generujStrone();
     }
     

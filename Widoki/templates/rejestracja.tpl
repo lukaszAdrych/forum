@@ -1,22 +1,22 @@
-<form>
+<form method="post">
 <div class="box">
-<h1>Formularz kontaktowy :</h1>
+<h1>Rejestracja :</h1>
 <label>
-<span>Nazwa użytkownika</span>
-<input type="text" class="wpis" name="nazwa" id="nazwa"/>
-</label>
+<span>Nick</span>
+<input type="text" class="wpis" name="nick" id="nazwa"/>
+</label><br>
 <label>
 <span>E-mail :</span>
 <input type="text" class="wpis" name="email" id="email"/>
-</label>
+</label><br>
 <label>
-<span>Temat :</span>
-<input type="text" class="wpis" name="temat" id="temat"/>
-</label>
+<span>Hasło :</span>
+<input type="text" class="wpis" name="haslo1" id="temat"/>
+</label><br>
 <label>
-<span>Wiadomość :</span>
-<textarea class="wiadomosc" name="wiadomosc" id="tresc"></textarea>
-<input type="submit" class="button" value="Wyślj" />
-</label>
+<span>Powtórz hasło :</span>
+<input type="text" class="wpis" name="haslo2" id="temat"/><br>
+<input type="submit" class="button" value="Rejestruj" />
+</label><br>
 </div>
 </form>

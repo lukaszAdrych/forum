@@ -50,8 +50,11 @@ class Route {
                 break;
             case "konto":
                 
+                $controler = new Controler__Konto($this->katalog);
+                $controler->wykonaj();
+                
                 break;
-            case "blad":
+            case "aktywacja":
                 
                 break;
             

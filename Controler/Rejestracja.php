@@ -19,10 +19,29 @@ class Controler__Rejestracja extends Controler__Controler {
         parent::__construct();
     }
     
-    
     public function wykonaj() {
         
+        if(isset($this->tablica_post['nick'])) {
+            $this->rejestracja();
+        }
         
-        $this->smarty->display('rejestracja.tpl');
+        $this->generujStrone();
     }
+    
+    private function rejestracja() {
+        $user = new Model__User();
+        
+        $user->setNick($this->tablica_post['nick']);
+        $user->setEmail($this->tablica_post['email']);
+        $user->setHash_haslo(md5($this->tablica_post['haslo1']));
+        $user->setKod_aktywacja("dfddsfsdf");
+        $user->setStatus("nowy");
+        
+        $user->save();
+        
+        
+        //dopisac wysywanie emaila z aktywacja itp.
+    }
+    
+   
 }

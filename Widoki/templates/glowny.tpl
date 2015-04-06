@@ -14,19 +14,38 @@
 <body>
 
 <div id="kontener">
-<div id="logo"></div>
+    <div id="logo">
+        <div id='logowanie'>
+            <form method="post">
+                {if $zalogowany}
+                Witaj {$user}
+                <form method="post">
+                    <input type="hidden" name="wyloguj" value="tak">
+                    <input type="submit" value="Wyloguj">
+                </form>
+                {else}
+                    Login: <input type="text" name="nick">
+                Hasło: <input type="password" name="haslo">
+                <input type="submit" style="color: black;">
+                    
+                {/if}
+            </form>
+        </div>
+    </div>
 <div id="menu">
  <a href="/">Strona Główna</a>
  <a href="/konto">Moje konto</a>
- <a href="/rejestracja">Jajko</a>
+ <a href="/rejestracja">Rejestracja</a>
 </div>
 <div id="tresc">
     {if $katalog eq ""}
         {include file='strona_glowna.tpl'}
     {elseif $katalog eq "rejestracja"}
-        
+        {include file='rejestracja.tpl'}
     {elseif $katalog eq "temat"}
         {include file='strona_temat.tpl'}
+    {elseif $katalog eq "konto"}
+        {include file='strona_konto.tpl'}
     {else}
         <h1>STRONA BLEDU!!!!</h1>
     {/if}

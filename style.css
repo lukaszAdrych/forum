@@ -120,6 +120,13 @@ a {
     background-color: rosybrown;
 }
 
-
+#logowanie {
+    background-color: red;
+    height: 100px;
+    width: 200px;
+    position: relative;
+    left: 220px;
+    top: 40px;
+}
 
 
