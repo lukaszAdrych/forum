@@ -28,6 +28,8 @@ abstract class Controler__Controler {
     protected $tablica_session = array();
     
     protected $sciezka_css = "./../style.css";
+    
+    public $czy_blad;
 
 
     public function __construct() {
@@ -49,6 +51,7 @@ abstract class Controler__Controler {
         }
         
         if( isset($this->tablica_post['nick'])) {
+            var_dump("logowanie");
             $this->zalogujUzytkownika();
         } else {
             if(isset($this->tablica_session['user'])) {
@@ -56,10 +59,16 @@ abstract class Controler__Controler {
             } else {
                 //$this->tablica_session['zalogowany'] = false;
             }
-            
+            $this->czy_blad = false;
         }
-        $zmienna = $this->tablica_session['zalogowany'];
+        if(isset($this->tablica_session['zalogowany'])) {
+            $zmienna = $this->tablica_session['zalogowany'];
+        } else {
+            $zmienna = false;
+        }
+        
         $this->smarty->assign('zalogowany',$zmienna);
+        $this->smarty->assign('czy_blad', $this->czy_blad);
     }
     
     public function wykonaj()
@@ -75,19 +84,22 @@ abstract class Controler__Controler {
         $haslo = "'" . md5($this->tablica_post['haslo']) . "'";
         
         $user = new Model__User();
-        $user->find(array('nick' => $nick,
-            'hash_haslo' => $haslo,
+        $user->find(array('nick=' => $nick,
+            'hash_haslo=' => $haslo,
+            'status<>' => "'nowy'",
             ));
             
         if($user->getId() != null) {
             
             $this->tablica_session['zalogowany'] = true;
             $this->tablica_session['user'] = $user->getNick();
-            var_dump($_SESSION);
-        } else {
+            $this->czy_blad = false;
             
+        } else {
+            $this->czy_blad = true;
             //$this->tablica_session['zalogowany'] = false;
         }
+        
         
         $this->smarty->assign('user', $user->getNick());
     }

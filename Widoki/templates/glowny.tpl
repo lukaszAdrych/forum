@@ -8,7 +8,7 @@
   <meta name="Robots" content="ALL" />
   <meta name="Author" content="flankerds.com" />
   <link rel="stylesheet" href="{$style}" type="text/css" />
-  <title>Szablonik flankerds.com</title>
+  <title>Zadanie testowe</title>
 </head>
 
 <body>
@@ -16,20 +16,31 @@
 <div id="kontener">
     <div id="logo">
         <div id='logowanie'>
-            <form method="post">
+            
+            <table cellpadding="0" cellspacing="0" class="brd">
+            <tr><td class="m">Logowanie:</td></tr>
+      
+            <tr><td><div class="linki">
+               <form method="post">
                 {if $zalogowany}
-                Witaj {$user}
+                    Witaj <b>{$user}</b>
                 <form method="post">
                     <input type="hidden" name="wyloguj" value="tak">
-                    <input type="submit" value="Wyloguj">
+                        <input class="button" type="submit" value="Wyloguj">
                 </form>
                 {else}
-                    Login: <input type="text" name="nick">
-                Hasło: <input type="password" name="haslo">
-                <input type="submit" style="color: black;">
+                    Login: <input style="margin-bottom: 4px;" type="text" name="nick">
+                    Hasło: <input style="margin-bottom: 4px;" type="password" name="haslo">
+                    <input class="button" type="submit" style="color: black; left: 40px;" value="Zaloguj">
+                     {if $czy_blad}
+                         Zły login, hasło, lub twoje konto nie jest aktywne
+                     {/if}
                     
                 {/if}
-            </form>
+            </form>             
+            </div>
+            </td></tr>
+        </table>
         </div>
     </div>
 <div id="menu">
@@ -46,6 +57,8 @@
         {include file='strona_temat.tpl'}
     {elseif $katalog eq "konto"}
         {include file='strona_konto.tpl'}
+    {elseif $katalog eq "aktywacja"}
+        {include file='strona_aktywacja.tpl'}
     {else}
         <h1>STRONA BLEDU!!!!</h1>
     {/if}
@@ -58,3 +71,6 @@
 </div>    
 </body>
 </html>
+
+
+        

@@ -1,22 +1,19 @@
-<form method="post">
-<div class="box">
-<h1>Rejestracja :</h1>
-<label>
-<span>Nick</span>
-<input type="text" class="wpis" name="nick" id="nazwa"/>
-</label><br>
-<label>
-<span>E-mail :</span>
-<input type="text" class="wpis" name="email" id="email"/>
-</label><br>
-<label>
-<span>Hasło :</span>
-<input type="text" class="wpis" name="haslo1" id="temat"/>
-</label><br>
-<label>
-<span>Powtórz hasło :</span>
-<input type="text" class="wpis" name="haslo2" id="temat"/><br>
+
+<div id="panel">
+    <form method="post">
+<label for="login">Login:</label>
+<input type="text" id="login" name="nickRej">
+<label for="mejl">E-mail:</label>
+<input type="text" id="mejl" name="email">
+<label for="haslo1">Hasło:</label>
+<input type="password" id="haslo1" name="haslo1">
+<label for="haslo2">Powtórz hasło:</label>
+<input type="password" id="haslo2" name="haslo2">
+<div id="lower">
 <input type="submit" class="button" value="Rejestruj" />
-</label><br>
+{if $czy_blad_rej}
+    Błąd podczas rejestracji, spróbuj ponownie.
+{/if}
 </div>
 </form>
+</div>

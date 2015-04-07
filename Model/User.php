@@ -128,7 +128,7 @@ class Model__User extends Model__DB {
         foreach ($parametry as $key => $val) {
             if(isset($key)) {
                 
-                $zapytanie = $zapytanie . $key . "=" . $val . " AND ";
+                $zapytanie = $zapytanie . $key . $val . " AND ";
             }
         }
         

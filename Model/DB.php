@@ -7,6 +7,8 @@ require 'konfig/baza.php';
  * @author aich
  */
 
+
+
 abstract class Model__DB {
     
     protected $id;
@@ -16,9 +18,19 @@ abstract class Model__DB {
     protected $table;
 
 
+
     public function __construct() {
         
-        $this->pdo = new PDO('mysql:host=mysql.cba.pl;dbname=luuuk_cba_pl;', 'lukasz26', 'mamlokus');
+        $dns = $GLOBALS['dns'];
+        $user = $GLOBALS['user'];
+        $haslo = $GLOBALS['haslo'];
+        
+        try {
+            $this->pdo = new PDO($dns, $user, $haslo);
+        } catch (PDOException $ex) {
+            //przekierowanie na strone bledu
+        }
+        
         
     }
     

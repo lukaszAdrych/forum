@@ -28,8 +28,6 @@ class Controler__Glowna extends Controler__Controler {
         }
         
         $this->pobierzTematy();
-        var_dump("<br>PROSZE!!!!!!!!!");
-        var_dump($_SESSION);
         $this->generujStrone();
     }
     

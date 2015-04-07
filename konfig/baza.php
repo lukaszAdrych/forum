@@ -6,8 +6,8 @@
  * and open the template in the editor.
  */
 
-$dns = 'mysql:host=localhost;dbname=testdb';
+$dns = 'mysql:host=mysql.cba.pl;dbname=luuuk_cba_pl;';
 
-$user = 'lukasz';
+$user = 'lukasz26';
 
-$haslo = 'mamwrotki';
+$haslo = 'mamlokus';

@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-var_dump($_SESSION);
+require 'konfig/baza.php';
+
 
 
 function __autoload( $classname ) {
@@ -17,8 +18,7 @@ function __autoload( $classname ) {
     }
  }
  
- 
- 
+
  
  $route = new Route($_SERVER["REQUEST_URI"]);
  $route->uruchomController();

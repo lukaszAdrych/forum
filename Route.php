@@ -56,6 +56,8 @@ class Route {
                 break;
             case "aktywacja":
                 
+                $controler = new Controler__Aktywacja($this->katalog);
+                $controler->wykonaj();
                 break;
             
             default :
