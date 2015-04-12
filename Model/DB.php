@@ -21,14 +21,19 @@ abstract class Model__DB {
 
     public function __construct() {
         
-        $dns = $GLOBALS['dns'];
+        $host = $GLOBALS['host'];
+        $nazwa_bazy = $GLOBALS['nazwa_bazy'];
         $user = $GLOBALS['user'];
         $haslo = $GLOBALS['haslo'];
+        
+        $dns = 'mysql:host=' . $host . ';dbname=' . $nazwa_bazy . ';';
         
         try {
             $this->pdo = new PDO($dns, $user, $haslo);
         } catch (PDOException $ex) {
             //przekierowanie na strone bledu
+            //echo 'trzeba naprawic' . $ex->getMessage();
+            header('Location: /blad');
         }
         
         

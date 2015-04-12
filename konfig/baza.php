@@ -6,7 +6,11 @@
  * and open the template in the editor.
  */
 
-$dns = 'mysql:host=mysql.cba.pl;dbname=luuuk_cba_pl;';
+
+
+$host = "mysql.cba.pl";
+
+$nazwa_bazy = "luuuk_cba_pl";
 
 $user = 'lukasz26';
 

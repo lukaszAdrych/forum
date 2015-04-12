@@ -16,3 +16,11 @@
             </div>
             </td></tr>
 </table>
+
+<form method="post">
+	<select name="status_temat">
+		<option>Aktywny</option>
+		<option>Ukryty</option>
+	</select>
+    <input type="submit" value="Zapisz">
+</form>

@@ -218,16 +218,16 @@ text-shadow: 0 0 1px silver;
 }
 
 
-#login, #mejl, #haslo1, #haslo2{
+#login, #mejl, #haslo1, #haslo2, #stare_has, #nowe_has1, #nowe_has2{
 display: block;
 width: 360px; 
 margin: 0 auto;
 padding: 10px 5px;
 border: 1px solid silver;
 outline: 5px solid #ebebeb;
-font-size: 22px;
+font-size: 15px;
 }
-#login:focus, mejl:focus, #haslo1:focus, #haslo2:focus {
+#login:focus, mejl:focus, #haslo1:focus, #haslo2:focus, #stare_has, #nowe_has1, #nowe_has2 {
 outline: 5px solid #e5f2f8;
 }
 

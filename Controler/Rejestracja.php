@@ -58,6 +58,11 @@ class Controler__Rejestracja extends Controler__Controler {
         
             $user->save();
             $this->blad_rejestracja = false;
+            
+            $portal = new Model__Portal();
+            $portal->getPortal();
+            $portal->dodajUzytkownika();
+            $portal->update();
         
             $this->wyslijEmailAktywacyjny($user->getEmail(), $kod_aktywacja);
         } else {

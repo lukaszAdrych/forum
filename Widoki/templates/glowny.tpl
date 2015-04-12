@@ -3,10 +3,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <meta http-equiv="Content-Language" content="pl" />
-  <meta name="Keywords" content="słowa, kluczowe, oddzielone, przecinkami" />
-  <meta name="Description" content="krótki opis zawartości strony" />
-  <meta name="Robots" content="ALL" />
-  <meta name="Author" content="flankerds.com" />
   <link rel="stylesheet" href="{$style}" type="text/css" />
   <title>Zadanie testowe</title>
 </head>
@@ -45,7 +41,9 @@
     </div>
 <div id="menu">
  <a href="/">Strona Główna</a>
- <a href="/konto">Moje konto</a>
+ {if $zalogowany}
+ <a href="/konto/{$id}">Moje konto</a>
+ {/if}
  <a href="/rejestracja">Rejestracja</a>
 </div>
 <div id="tresc">
@@ -60,7 +58,7 @@
     {elseif $katalog eq "aktywacja"}
         {include file='strona_aktywacja.tpl'}
     {else}
-        <h1>STRONA BLEDU!!!!</h1>
+        {include file='blad.tpl'}
     {/if}
 </div>
 </div>

@@ -8,6 +8,16 @@
          
 		<tr><td><div class="linki">
 		<a href="/temat/{$temat->getId()}">{$temat->getNazwa()}</a>
+                {if $czy_mod eq 'moderator'}
+                <form method="post">
+                    <select name="status_temat">
+                        <option value="aktywny" {if $temat->getStatus() eq 'aktywny'}selected{/if}>Aktywny</option>
+                        <option value="ukryty" {if $temat->getStatus() eq 'ukryty'}selected{/if}>Ukryty</option>
+                    </select>
+                    <input type="hidden" value="{$temat->getId()}" name="id_topic">
+                    <input type="submit" value="Zapisz">
+                </form>
+                {/if}
 		</div>
 		</td></tr>
 	
@@ -23,4 +33,16 @@
     {else}
         <p>Aby dodawać nowe tematy musisz się zalogować</p>
     {/if}
+</div>
+<div>
+    <table cellpadding="0" cellspacing="0" class="posty">
+             <tr><td class="m">Dane o portalu: </td></tr>
+      
+            <tr><td><div class="linki">
+                        Ilość postów: {$portal->getIlosc_postow()}<br>
+                Ilość tematów: {$portal->getIlosc_tematow()}<br>
+                Ilość użytkowników: {$portal->getIlosc_uzytkownikow()}
+            </div>
+            </td></tr>
+        </table>
 </div>

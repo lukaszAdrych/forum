@@ -48,6 +48,18 @@ class Model__Portal extends Model__DB {
         return $this->ilosc_uzytkownikow;
     }
     
+    public function dodajPost() {
+        $this->ilosc_postow++;
+    }
+    
+    public function dodajTemat() {
+        $this->ilosc_tematow++;
+    }
+    
+    public function dodajUzytkownika() {
+        $this->ilosc_uzytkownikow++;
+    }
+
     public function save() {
         
        
@@ -89,7 +101,7 @@ class Model__Portal extends Model__DB {
         $this->ilosc_uzytkownikow = $portal[0]['ilosc_uzytkownikow'];
     }
     
-    public function getTopics($parametry) {
+    public function getTopics($parametry = array()) {
         $zapytanie = "SELECT * FROM topic WHERE ";
         
         foreach ($parametry as $key => $val) {
@@ -98,7 +110,9 @@ class Model__Portal extends Model__DB {
                 $zapytanie = $zapytanie . $key . "= '" . $val . "' AND ";
             }
         }
-        
+        if(strlen($zapytanie) == 22) {
+            $zapytanie = substr($zapytanie, 0, strlen($zapytanie) - 3);
+        }
         $zapytanie = substr($zapytanie, 0, strlen($zapytanie) - 4);
         
         $stmt = $this->pdo->prepare($zapytanie);

@@ -51,7 +51,7 @@ abstract class Controler__Controler {
         }
         
         if( isset($this->tablica_post['nick'])) {
-            var_dump("logowanie");
+            
             $this->zalogujUzytkownika();
         } else {
             if(isset($this->tablica_session['user'])) {
@@ -67,7 +67,21 @@ abstract class Controler__Controler {
             $zmienna = false;
         }
         
+        if(isset($this->tablica_session['id'])) {
+            $id = $this->tablica_session['id'];
+        } else {
+            $id = "";
+        }
+        
+        if(isset($this->tablica_session['status'])) {
+            $czy_mod = $this->tablica_session['status'];
+        } else {
+            $czy_mod = "";
+        }
+        
         $this->smarty->assign('zalogowany',$zmienna);
+        $this->smarty->assign('id', $id);
+        $this->smarty->assign('czy_mod', $czy_mod);
         $this->smarty->assign('czy_blad', $this->czy_blad);
     }
     
@@ -93,6 +107,8 @@ abstract class Controler__Controler {
             
             $this->tablica_session['zalogowany'] = true;
             $this->tablica_session['user'] = $user->getNick();
+            $this->tablica_session['id'] = $user->getId();
+            $this->tablica_session['status'] = $user->getStatus();
             $this->czy_blad = false;
             
         } else {
@@ -107,6 +123,8 @@ abstract class Controler__Controler {
     private function wylogujUzytkownika() {
         $this->tablica_session['zalogowany'] = false;
         $this->tablica_session['user'] = '';
+        $this->tablica_session['id'] = '';
+        $this->tablica_session['status'] = '';
     }
     
 }

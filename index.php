@@ -4,7 +4,6 @@ session_start();
 require 'konfig/baza.php';
 
 
-
 function __autoload( $classname ) {
     
     if ($classname == "Smarty") {

@@ -50,7 +50,7 @@ class Route {
                 break;
             case "konto":
                 
-                $controler = new Controler__Konto($this->katalog);
+                $controler = new Controler__Konto($this->katalog, $this->parametr);
                 $controler->wykonaj();
                 
                 break;
@@ -61,7 +61,8 @@ class Route {
                 break;
             
             default :
-                
+                $controler = new Controler__Blad($this->katalog);
+                $controler->wykonaj();
                 break;
             
         }

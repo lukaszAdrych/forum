@@ -97,18 +97,24 @@ class Model__Topic extends Model__DB {
         $topic = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(count($topic) == 1) {
             $this->id = $topic[0]['id'];
-            $this->nick = $topic[0]['nazwa'];
-            $this->email = $topic[0]['status'];
-            $this->hash_haslo = $topic[0]['id_user'];
+            $this->nazwa = $topic[0]['nazwa'];
+            $this->status = $topic[0]['status'];
+            $this->id_user = $topic[0]['id_user'];
             
             return true;
         }
         return false;
     }
     
-    public function getPosts() {
+    public function getPosts($status_usera) {
         
-        $stmt = $this->pdo->prepare("SELECT * FROM post WHERE id_topic = $this->id");
+        if($status_usera == "moderator") {
+            $zapytanie = "SELECT * FROM post WHERE id_topic = $this->id";
+        } else {
+            $zapytanie = "SELECT * FROM post WHERE id_topic = $this->id AND status = 'aktywny'";
+        }
+        
+        $stmt = $this->pdo->prepare($zapytanie);
         $stmt->execute();
         $posty = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
@@ -125,6 +131,12 @@ class Model__Topic extends Model__DB {
             $post->setStatus($val['status']);
             $post->setId_user($val['id_user']);
             $post->setId_topic($val['id_topic']);
+            
+            $user = new Model__User();
+            $user->find(array('id= ' => $val['id_user']));
+            
+            $post->setUser_name($user->getNick());
+            
             
             $tablica_postow[] = $post;
         }

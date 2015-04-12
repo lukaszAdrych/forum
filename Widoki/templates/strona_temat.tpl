@@ -1,10 +1,20 @@
-<h2>Posty w tym dziale</h2>
+<h2>Posty w {$nazwa_tematu}</h2>
       {foreach from=$posty item=post}
          <table cellpadding="0" cellspacing="0" class="posty">
-            <tr><td class="m">{$post->getData()} </td></tr>
+             <tr><td class="m">{$post->getUser_name()} napisał:</td><td class="m">{$post->getData()} </td></tr>
       
             <tr><td><div class="linki">
-               {$post->getTresc()}  
+                {$post->getTresc()}<br>  
+                {if $czy_mod eq 'moderator'}
+                <form method="post">
+                    <select name="status_post">
+                        <option value="aktywny" {if $post->getStatus() eq 'aktywny'}selected{/if}>Aktywny</option>
+                        <option value="ukryty" {if $post->getStatus() eq 'ukryty'}selected{/if}>Ukryty</option>
+                    </select>
+                    <input type="hidden" value="{$post->getId()}" name="id_post">
+                    <input type="submit" value="Zapisz">
+                </form>
+                {/if}
             </div>
             </td></tr>
         </table>

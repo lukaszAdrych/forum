@@ -28,6 +28,11 @@ class Controler__Topic extends Controler__Controler {
         if(isset($this->tablica_post['tresc_postu'])) {
             $this->dodajNowyPost($this->tablica_post['tresc_postu']);
         }
+        
+        if(isset($this->tablica_post['id_post'])) {
+            $this->aktualizujPost();
+        }
+        
         $this->pobierzPosty();
         $this->generujStrone();
     }
@@ -36,15 +41,37 @@ class Controler__Topic extends Controler__Controler {
         
         if(is_int($this->parametr)) {
             
-            $temat = new Model__Topic();
-            $temat->find(array('id' => $this->parametr));
+            if(isset($this->tablica_session['status'])) {
+                if($this->tablica_session['status'] == 'moderator') {
+                    $status_usera = 'moderator';
+                } else {
+                    $status_usera = "";
+                }
+            } else {
+                $status_usera = "";
+            }
             
-            $posty = $temat->getPosts();
+            $temat = new Model__Topic();       
+            
+            if($status_usera == 'moderator') {
+                $temat->find(array('id' => $this->parametr,));
+            } else {
+                $temat->find(array('id' => $this->parametr, 'status' => "'aktywny'",));
+            }
+            
+            
+            if($temat->getId() == null) {
+                
+                header('Location: /blad');
+            }
+            
+            $posty = $temat->getPosts($status_usera);
+            $this->smarty->assign('nazwa_tematu', $temat->getNazwa());
             $this->smarty->assign('posty', $posty);
             
         } else {
             //zrobic przekierowanie na blad
-            var_dump("jestesmy w bledzie z parametrem");
+            header('Location: /blad');
         }
     }
     
@@ -54,8 +81,25 @@ class Controler__Topic extends Controler__Controler {
         $post->setData(date("Y-m-d H:i:s"));
         $post->setStatus("aktywny");
         $post->setId_topic($this->parametr);
-        $post->setId_user(1);
+        $post->setId_user($this->tablica_session['id']);
         
         $post->save();
+        
+        $portal = new Model__Portal();
+        $portal->getPortal();
+        $portal->dodajPost();
+        $portal->update();
+    }
+    
+    private function aktualizujPost() {
+        
+        if((int)$this->tablica_post['id_post']) {
+            $post = new Model__Post();
+            $post->find(array('id' => $this->tablica_post['id_post']));
+            
+            $post->setStatus($this->tablica_post['status_post']);
+            
+            $post->update();
+        }
     }
 }

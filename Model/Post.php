@@ -23,6 +23,9 @@ class Model__Post extends Model__DB {
     
     private $id_topic;
     
+    private $user_name;
+
+
     public function __construct() {
         $this->table = strtolower(substr(__CLASS__, 7));
         parent::__construct();
@@ -66,6 +69,14 @@ class Model__Post extends Model__DB {
 
     public function getId_topic() {
         return $this->id_topic;
+    }
+    
+    public function getUser_name() {
+        return $this->user_name;
+    }
+    
+    public function setUser_name($user_name) {
+        $this->user_name = $user_name;
     }
 
     public function save() {
@@ -123,11 +134,11 @@ class Model__Post extends Model__DB {
         $post = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(count($post) == 1) {
             $this->id = $post[0]['id'];
-            $this->nick = $post[0]['tresc'];
-            $this->email = $post[0]['data'];
-            $this->hash_haslo = $post[0]['status'];
-            $this->kod_aktywacja = $post[0]['id_user'];
-            $this->status = $post[0]['id_topic'];
+            $this->tresc = $post[0]['tresc'];
+            $this->data = $post[0]['data'];
+            $this->status = $post[0]['status'];
+            $this->id_user = $post[0]['id_user'];
+            $this->id_topic = $post[0]['id_topic'];
             
             return true;
         }
