@@ -1,15 +1,10 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of Aktywacja
  *
- * @author aich
+ *  Kontroler Aktywacja, jest uruchamiany w momencie aktywacji konta użytkownika
  */
 class Controler__Aktywacja extends Controler__Controler {
     public function __construct($katalog) {  
@@ -21,11 +16,16 @@ class Controler__Aktywacja extends Controler__Controler {
     public function wykonaj() {
         
         if($this->tablica_get['aktywacja'] == 'tak') {
-            $this->aktywujKonto($this->tablica_get['kod']);
+            $this->aktywujKonto(addslashes($this->tablica_get['kod']));
         }
         
         $this->generujStrone();
     }
+    
+    /**
+     * 
+     * @param string $kod - kod akttwacyjny
+     */
     
     private function aktywujKonto($kod) {
         $kod = "'" . $kod . "'";

@@ -1,20 +1,22 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Konto
  *
- * @author aich
+ * Kontroler odpowiedzialny za wyświetlanie danych o koncie
  */
 class Controler__Konto extends Controler__Controler {
     
+    /**
+     *Parametr przekazany w URL, identyfikujący konto
+     * @var type string
+     */
     private $parametr;
     
+    /**
+     * Posty konkretnego użytkownika do wyświetlenia
+     * @var type array
+     */
     public $posty = array();
 
     public function __construct($katalog, $parametr) {  
@@ -48,20 +50,26 @@ class Controler__Konto extends Controler__Controler {
         $this->generujStrone();
     }
     
+    /**
+     * Zmienia hasło do konta, jeżeli użytkownik wykonał taką czynność
+     */
     private function zmienHasloDoKonta() {
         $user = new Model__User();
         
         $id = $this->parametr;
-        $hash_stare = "'" . md5($this->tablica_post['stare_haslo']) . "'";
+        $hash_stare = "'" . addslashes(md5($this->tablica_post['stare_haslo'])) . "'";
         
         $user->find(array('id=' => $id, 'hash_haslo=' => $hash_stare));
         
-        if($user->getId() != null && $this->tablica_post['nowe_haslo1'] == $this->tablica_post['nowe_haslo2']) {
+        if($user->getId() != null && addslashes($this->tablica_post['nowe_haslo1']) == addslashes($this->tablica_post['nowe_haslo2'])) {
             $user->setHash_haslo(md5($this->tablica_post['nowe_haslo1']));
             $user->update();
         }
     }
     
+    /**
+     * Pobiera posty użytkownika
+     */
     private function pobierzPosty() {
         $user = new Model__User();
         

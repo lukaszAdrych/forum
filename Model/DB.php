@@ -4,17 +4,26 @@ require 'konfig/baza.php';
 /**
  * Description of DB
  *
- * @author aich
+ * Główna klasa modelu, z której dziedziczą wszystkie nowo stworzone modele
  */
 
-
-
 abstract class Model__DB {
-    
+    /**
+     * Id nowego obiektu
+     * @var int $id 
+     */
     protected $id;
     
+    /**
+     * Uchwyt do połączenia z bazą danych
+     * @var type PDO
+     */
     protected $pdo;
     
+    /**
+     * Nazwa tabeli dla której jest stworzony obiekt klasy dziedziczącej
+     * @var type string
+     */
     protected $table;
 
 
@@ -32,13 +41,14 @@ abstract class Model__DB {
             $this->pdo = new PDO($dns, $user, $haslo);
         } catch (PDOException $ex) {
             //przekierowanie na strone bledu
-            //echo 'trzeba naprawic' . $ex->getMessage();
             header('Location: /blad');
         }
         
-        
     }
     
+    /**
+     * Metoda usuwa dany obiekt z bazy danych
+     */
     public function delete() {
         $stmt = $this->pdo->prepare("DELETE FROM $this->table WHERE id = $this->id");
         $stmt->execute();

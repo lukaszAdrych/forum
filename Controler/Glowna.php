@@ -1,18 +1,12 @@
 <?php
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  * Description of Glowna
  *
- * @author aich
+ * Kontroler odpowiedzialny za działanie strony głównej systemu
  */
 class Controler__Glowna extends Controler__Controler {
-    //put your code here
+    
     
     public function __construct($katalog) {  
         
@@ -24,7 +18,7 @@ class Controler__Glowna extends Controler__Controler {
     public function wykonaj() {
         
         if(isset($this->tablica_post['nazwa_tematu'])) {
-            $this->dodajNowyTemat($this->tablica_post['nazwa_tematu']);
+            $this->dodajNowyTemat(addslashes($this->tablica_post['nazwa_tematu']));
         }
         
         if(isset($this->tablica_post['id_topic'])) {
@@ -37,6 +31,9 @@ class Controler__Glowna extends Controler__Controler {
         $this->generujStrone();
     }
     
+    /**
+     * Pobiera tematy z bazy do wyświetlenia
+     */
     private function pobierzTematy() {
         $portal = new Model__Portal();
         $portal->getPortal();
@@ -56,6 +53,10 @@ class Controler__Glowna extends Controler__Controler {
         
     }
     
+    /**
+     * Dodaje nowy temat do portalu
+     * @param string $nazwa_tematu
+     */
     private function dodajNowyTemat($nazwa_tematu) {
         
         $nowy_temat = new Model__Topic();
@@ -70,6 +71,9 @@ class Controler__Glowna extends Controler__Controler {
         $portal->update();
     }
     
+    /**
+     * Zmienia status tematu, na przekazany w tablicy post
+     */
     private function aktualizujTemat() {
         if((int)$this->tablica_post['id_topic']) {
             $temat = new Model__Topic();
@@ -80,6 +84,9 @@ class Controler__Glowna extends Controler__Controler {
         }
     }
     
+    /**
+     * Pobiera dane dotyczące portalu
+     */
     private function wyswietlDanePortal() {
         $portal = new Model__Portal();
         $portal->getPortal();

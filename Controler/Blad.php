@@ -1,15 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Blad
  *
- * @author aich
+ * Kontroler jest uruchamiany jeżeli wystąpi jakiś błąd w systemie
  */
 class Controler__Blad extends Controler__Controler {
     

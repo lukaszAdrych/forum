@@ -2,33 +2,60 @@
 session_start();
 
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Controler
  *
- * @author aich
+ * Klasa Controler z której dziedziczą wszystkie inne kontrolery
  */
 abstract class Controler__Controler {
     
+    /**
+     * Obiekt Smarty który jest przekazywany do widoków
+     * @var type Smarty
+     */
     protected $smarty;
-    
+   
+    /**
+     * Host na jakim działa obecna strona
+     * @var type string
+     */
     protected $host;
     
+    /**
+     * Katalog, na podstawie którego przeprowadzany jest routing
+     * @var type string
+     */
     protected $katalog;
     
+    /**
+     *Tablica get
+     * @var type array
+     */
     protected $tablica_get = array();
     
+    /**
+     *Tablica post
+     * @var type array
+     */
     protected $tablica_post = array();
     
+    /**
+     *Tablica session
+     * @var type array
+     */
     protected $tablica_session = array();
     
+    
+    /**
+     * Ścieżka do styli
+     * @var type string
+     */
     protected $sciezka_css = "./../style.css";
     
+    /**
+     * Zmienna przekazywana do widoków, dzięki której można wyświetlić komunikat o błędzie
+     * @var type string
+     */
     public $czy_blad;
 
 
@@ -85,17 +112,26 @@ abstract class Controler__Controler {
         $this->smarty->assign('czy_blad', $this->czy_blad);
     }
     
+    /**
+     * Metoda wykonaj, jest uruchamiana zawsze po stworzeniu obeiktu kontrolera
+     */
     public function wykonaj()
     {}
     
+    /**
+     * Metoda generująca stronę
+     */
     protected function generujStrone() {
         $this->smarty->display('glowny.tpl');
     }
     
+    /**
+     * Metoda logująca użytkownika do systemu
+     */
     private function zalogujUzytkownika() {
         
-        $nick = "'" . $this->tablica_post['nick'] . "'";
-        $haslo = "'" . md5($this->tablica_post['haslo']) . "'";
+        $nick = "'" . addslashes($this->tablica_post['nick']) . "'";
+        $haslo = "'" . addslashes(md5($this->tablica_post['haslo'])) . "'";
         
         $user = new Model__User();
         $user->find(array('nick=' => $nick,
@@ -120,6 +156,9 @@ abstract class Controler__Controler {
         $this->smarty->assign('user', $user->getNick());
     }
     
+    /**
+     * Metoda wylogowująca użytkownika z systemu
+     */
     private function wylogujUzytkownika() {
         $this->tablica_session['zalogowany'] = false;
         $this->tablica_session['user'] = '';

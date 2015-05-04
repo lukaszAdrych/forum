@@ -1,20 +1,24 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * Description of Route
  *
- * @author aich
+ * Klasa Route jest odpowiedzialna za routing w systemie
  */
 class Route {
     
+    /**
+     *Pierwszy człon adresu url, określa w jakiej części systemu jesteśmy
+     * @var type string
+     */
     private $katalog;
     
+    /**
+     * Parametr wykorzystywany przy niektórych modułach
+     * @var type int
+     */
     private $parametr;
     
 
@@ -29,6 +33,9 @@ class Route {
         
     }
     
+    /**
+     * Metoda określa który kontroler ma zostać wywołany
+     */
     public function uruchomController() {
         
         switch ($this->katalog) {

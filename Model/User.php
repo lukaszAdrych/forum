@@ -1,28 +1,40 @@
 <?php
 
-error_reporting(E_ALL); // poziom raportowania, http://pl.php.net/manual/pl/function.error-reporting.php
-ini_set('display_errors', 1);
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of User
  *
- * @author aich
+ * Klasa reprezentująca użytkownika w systemie
  */
 class Model__User extends Model__DB {
     
+    /**
+     *
+     * @var type string
+     */
     private $nick;
     
+    /**
+     *
+     * @var type string
+     */
     private $email;
     
+    /**
+     *
+     * @var type string
+     */
     private $hash_haslo;
     
+    /**
+     *
+     * @var type string
+     */
     private $kod_aktywacja;
     
+    /**
+     *
+     * @var type string
+     */
     private $status;
     
     public function __construct() {
@@ -58,32 +70,28 @@ class Model__User extends Model__DB {
     }
 
     public function getNick() {
-        return $this->nick;
+        return strip_tags($this->nick);
     }
 
     public function getEmail() {
-        return $this->email;
+        return strip_tags($this->email);
     }
 
     public function getHash_haslo() {
-        return $this->hash_haslo;
+        return strip_tags($this->hash_haslo);
     }
 
     public function getKod_aktywacja() {
-        return $this->kod_aktywacja;
+        return strip_tags($this->kod_aktywacja);
     }
 
     public function getStatus() {
-        return $this->status;
+        return strip_tags($this->status);
     }
 
-    public function zwrocUsera() {
-        foreach ($this->pdo->query('SELECT * FROM user') as $row)
-     {
-     print_r($row);
-     }
-    }
-    
+    /**
+     * Zapisuje obecnego użytkownika w bazie danych
+     */
     public function save() {
         
         if (strlen($this->nick) > 0 &&
@@ -106,6 +114,9 @@ class Model__User extends Model__DB {
             
     }
     
+    /**
+     * Aktualizuje dane obecnego użytkownika
+     */
     public function update() {
         
         $stmt = $this->pdo->prepare("
@@ -122,6 +133,11 @@ class Model__User extends Model__DB {
         $stmt->execute(); 
     }
     
+    /**
+     * Szuka użytkownika na podstawie prarametrów przekazanych do metody
+     * @param type $parametry
+     * @return boolean
+     */
     public function find($parametry) {
         $zapytanie = "SELECT * FROM $this->table WHERE ";
         
@@ -141,17 +157,21 @@ class Model__User extends Model__DB {
         $uzytkownik = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(count($uzytkownik) == 1) {
             $this->id = $uzytkownik[0]['id'];
-            $this->nick = $uzytkownik[0]['nick'];
-            $this->email = $uzytkownik[0]['email'];
-            $this->hash_haslo = $uzytkownik[0]['hash_haslo'];
-            $this->kod_aktywacja = $uzytkownik[0]['kod_aktywacja'];
-            $this->status = $uzytkownik[0]['status'];
+            $this->nick = strip_tags($uzytkownik[0]['nick']);
+            $this->email = strip_tags($uzytkownik[0]['email']);
+            $this->hash_haslo = strip_tags($uzytkownik[0]['hash_haslo']);
+            $this->kod_aktywacja = strip_tags($uzytkownik[0]['kod_aktywacja']);
+            $this->status = strip_tags($uzytkownik[0]['status']);
             
             return true;
         }
         return false;
     }
     
+    /**
+     * Zwraca posty aktualnego użytkownika
+     * @return type array Model_Post
+     */
     public function getPosts() {
         
         $stmt = $this->pdo->prepare("SELECT * FROM post WHERE id_user = $this->id");
@@ -162,16 +182,21 @@ class Model__User extends Model__DB {
         return $this->zmienNaObiekty($posty);
     }
     
+    /**
+     * Zamienia tablicę z kluczami na tablicę obeiktów
+     * @param type $posty
+     * @return \Model__Post
+     */
     private function zmienNaObiekty($posty) {
         $tablica_postow = array();
         foreach ($posty as $val) {
             $post = new Model__Post();
             $post->setId($val['id']);
-            $post->setTresc($val['tresc']);
-            $post->setData($val['data']);
-            $post->setStatus($val['status']);
-            $post->setId_user($val['id_user']);
-            $post->setId_topic($val['id_topic']);
+            $post->setTresc(strip_tags($val['tresc']));
+            $post->setData(strip_tags($val['data']));
+            $post->setStatus(strip_tags($val['status']));
+            $post->setId_user(strip_tags($val['id_user']));
+            $post->setId_topic(strip_tags($val['id_topic']));
             
             $tablica_postow[] = $post;
         }

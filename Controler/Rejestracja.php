@@ -1,15 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Rejestracja
  *
- * @author aich
+ * Kontroler rejestracji, uruchamiany podczas rejestracji nowgo użytkownika
  */
 class Controler__Rejestracja extends Controler__Controler {
     
@@ -37,22 +31,22 @@ class Controler__Rejestracja extends Controler__Controler {
     
     private function rejestracja() {
         $user = new Model__User();
-        $nick = "'" . $this->tablica_post['nickRej'] . "'";
-        $email = "'" . $this->tablica_post['email'] . "'";
+        $nick =  addslashes($this->tablica_post['nickRej']) ;
+        $email =  addslashes($this->tablica_post['email']) ;
         
-        $user->find(array('nick=' => $nick));
+        $user->find(array('nick=' => "'" . $nick . "'"));
         $id_user = $user->getId();
         
-        $user->find(array('email=' => $email));
+        $user->find(array('email=' => "'" . $email . "'"));
         
         
-        if($id_user == null && $user->getId() == null && $this->tablica_post['haslo1'] == $this->tablica_post['haslo2']) {
+        if($id_user == null && $user->getId() == null && addslashes($this->tablica_post['haslo1']) == addslashes($this->tablica_post['haslo2'])) {
         
             $kod_aktywacja = uniqid();
         
-            $user->setNick($this->tablica_post['nickRej']);
-            $user->setEmail($this->tablica_post['email']);
-            $user->setHash_haslo(md5($this->tablica_post['haslo1']));
+            $user->setNick($nick);
+            $user->setEmail($email);
+            $user->setHash_haslo(md5(addslashes($this->tablica_post['haslo1'])));
             $user->setKod_aktywacja($kod_aktywacja);
             $user->setStatus("nowy");
         

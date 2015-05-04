@@ -1,22 +1,28 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Topic
  *
- * @author aich
+ * Klasa Topic reprezentująca temat w systemie
  */
 class Model__Topic extends Model__DB {
-    //put your code here
+    
+    /**
+     *
+     * @var type string 
+     */
     private $nazwa;
     
+    /**
+     *
+     * @var type string
+     */
     private $status;
     
+    /**
+     *
+     * @var type int
+     */
     private $id_user;
     
     public function __construct() {
@@ -40,13 +46,16 @@ class Model__Topic extends Model__DB {
     }    
     
     public function getNazwa() {
-        return $this->nazwa;
+        return strip_tags($this->nazwa);
     }
 
     public function getStatus() {
-        return $this->status;
+        return strip_tags($this->status);
     }
 
+    /**
+     * Zapisuje obecny obiekt w bazie danych
+     */
     public function save() {
         
         if (strlen($this->nazwa) > 0) {
@@ -65,6 +74,9 @@ class Model__Topic extends Model__DB {
             
     }
     
+    /**
+     * Aktualizuje obecny obiekt w bazie danych
+     */
     public function update() {
         
         $stmt = $this->pdo->prepare("
@@ -73,11 +85,16 @@ class Model__Topic extends Model__DB {
         
         $stmt->bindValue(':nazwa', $this->nazwa, PDO::PARAM_STR);
         $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);  
-        $stmt->bindValue(':id_user', $this->id_user, PDO::PARAM_STR);   
+        $stmt->bindValue(':id_user', $this->id_user, PDO::PARAM_INT);   
         
         $stmt->execute(); 
     }
     
+    /**
+     * Wyszukuje czy istnieje obiekt o zadanych parametrach w bazie danych
+     * @param type $parametry
+     * @return boolean
+     */
     public function find($parametry) {
         $zapytanie = "SELECT * FROM $this->table WHERE ";
         
@@ -97,15 +114,20 @@ class Model__Topic extends Model__DB {
         $topic = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(count($topic) == 1) {
             $this->id = $topic[0]['id'];
-            $this->nazwa = $topic[0]['nazwa'];
-            $this->status = $topic[0]['status'];
-            $this->id_user = $topic[0]['id_user'];
+            $this->nazwa = strip_tags($topic[0]['nazwa']);
+            $this->status = strip_tags($topic[0]['status']);
+            $this->id_user = strip_tags($topic[0]['id_user']);
             
             return true;
         }
         return false;
     }
     
+    /**
+     * Zwraca posty dla obecnego tematu, na podstawie uprawnień użytkownika
+     * @param type $status_usera
+     * @return array Model_Post
+     */
     public function getPosts($status_usera) {
         
         if($status_usera == "moderator") {
@@ -121,21 +143,26 @@ class Model__Topic extends Model__DB {
         return $this->zmienNaObiekty($posty);
     }
     
+    /**
+     * Zamienia tablicę kluczy, na tablicę z obiektami
+     * @param array $posty
+     * @return \Model__Post
+     */
     private function zmienNaObiekty($posty) {
         $tablica_postow = array();
         foreach ($posty as $val) {
             $post = new Model__Post();
             $post->setId($val['id']);
-            $post->setTresc($val['tresc']);
-            $post->setData($val['data']);
-            $post->setStatus($val['status']);
-            $post->setId_user($val['id_user']);
-            $post->setId_topic($val['id_topic']);
+            $post->setTresc(strip_tags($val['tresc']));
+            $post->setData(strip_tags($val['data']));
+            $post->setStatus(strip_tags($val['status']));
+            $post->setId_user(strip_tags($val['id_user']));
+            $post->setId_topic(strip_tags($val['id_topic']));
             
             $user = new Model__User();
             $user->find(array('id= ' => $val['id_user']));
             
-            $post->setUser_name($user->getNick());
+            $post->setUser_name(strip_tags($user->getNick()));
             
             
             $tablica_postow[] = $post;

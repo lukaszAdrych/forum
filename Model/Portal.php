@@ -1,22 +1,29 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of Portal
  *
- * @author aich
+ * Klasa modelu Model_Portal reprezentująca Portal w systemie
  */
 class Model__Portal extends Model__DB {
     
+    /**
+     * Ilość postó w systemi
+     * @var type int
+     */
     private $ilosc_postow;
     
+    /**
+     * Ilość tematów w systemie
+     * @var type int
+     */
     private $ilosc_tematow;
     
+    /**
+     * Ilość użytkowników w systemie
+     * @var type int
+     */
     private $ilosc_uzytkownikow;
     
     public function __construct() {
@@ -37,29 +44,41 @@ class Model__Portal extends Model__DB {
     }
 
     public function getIlosc_postow() {
-        return $this->ilosc_postow;
+        return strip_tags($this->ilosc_postow);
     }
 
     public function getIlosc_tematow() {
-        return $this->ilosc_tematow;
+        return strip_tags($this->ilosc_tematow);
     }
 
     public function getIlosc_uzytkownikow() {
-        return $this->ilosc_uzytkownikow;
+        return strip_tags($this->ilosc_uzytkownikow);
     }
     
+    /**
+     * Inkrementuje ilość postów w serwisie
+     */
     public function dodajPost() {
         $this->ilosc_postow++;
     }
     
+    /**
+     * Inkrementuje ilość tematów w serwisie
+     */
     public function dodajTemat() {
         $this->ilosc_tematow++;
     }
     
+    /**
+     * Inkrementuje ilość użytkowników w serwisie
+     */
     public function dodajUzytkownika() {
         $this->ilosc_uzytkownikow++;
     }
 
+    /**
+     * Zapisuje nowo utworzony obiekt do bazy danych
+     */
     public function save() {
         
        
@@ -75,6 +94,9 @@ class Model__Portal extends Model__DB {
                        
     }
     
+    /**
+     * Aktualizuje obiekt w bazie danych
+     */
     public function update() {
         
         $stmt = $this->pdo->prepare("
@@ -82,13 +104,16 @@ class Model__Portal extends Model__DB {
                 ilosc_uzytkownikow=:ilosc_uzytkownikow WHERE id = $this->id"
                 );
         
-        $stmt->bindValue(':ilosc_postow', $this->ilosc_postow, PDO::PARAM_STR);
-        $stmt->bindValue(':ilosc_tematow', $this->ilosc_tematow, PDO::PARAM_STR);  
-        $stmt->bindValue(':ilosc_uzytkownikow', $this->ilosc_uzytkownikow, PDO::PARAM_STR);    
+        $stmt->bindValue(':ilosc_postow', $this->ilosc_postow, PDO::PARAM_INT);
+        $stmt->bindValue(':ilosc_tematow', $this->ilosc_tematow, PDO::PARAM_INT);  
+        $stmt->bindValue(':ilosc_uzytkownikow', $this->ilosc_uzytkownikow, PDO::PARAM_INT);    
         
         $stmt->execute(); 
     }
     
+    /**
+     * Pobiera dane do obiektu z bazy danych
+     */
     public function getPortal() {
         $stmt = $this->pdo->prepare("SELECT * FROM portal LIMIT 1");
         $stmt->execute();
@@ -101,6 +126,11 @@ class Model__Portal extends Model__DB {
         $this->ilosc_uzytkownikow = $portal[0]['ilosc_uzytkownikow'];
     }
     
+    /**
+     * Zwraca tematy na podstawie parametrów przekazanych w tablicy
+     * @param array $parametry 
+     * @return type array Model_Topic object
+     */
     public function getTopics($parametry = array()) {
         $zapytanie = "SELECT * FROM topic WHERE ";
         
@@ -123,14 +153,19 @@ class Model__Portal extends Model__DB {
         return $this->zmienNaObiekty($tematy);
     }
     
+    /**
+     * Zamienia tablicę z kluczami na tablicę obiektów
+     * @param array $tematy
+     * @return \Model__Topic
+     */
     private function zmienNaObiekty($tematy) {
         $tablica_tematow = array();
         foreach ($tematy as $val) {
             $temat = new Model__Topic();
             $temat->setId($val['id']);
-            $temat->setNazwa($val['nazwa']);
-            $temat->setStatus($val['status']);
-            $temat->setId_user($val['id_user']);
+            $temat->setNazwa(strip_tags($val['nazwa']));
+            $temat->setStatus(strip_tags($val['status']));
+            $temat->setId_user(strip_tags($val['id_user']));
             
             $tablica_tematow[] = $temat;
         }

@@ -20,9 +20,9 @@
     Moje posty:
     {foreach from=$posty item=post}
          <table cellpadding="0" cellspacing="0" class="posty">
-             <tr><td class="m">{$post->getData()} </td></tr>
+             <tr><td style="text-align: right" class="m">{$post->getData()} </td></tr>
       
-            <tr><td><div class="linki">
+            <tr><td colspan="2"><div class="linki">
                {$post->getTresc()}  
             </div>
             </td></tr>

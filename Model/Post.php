@@ -1,28 +1,47 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of Post
  *
- * @author aich
+ * Klasa reprezentująca Post
  */
 class Model__Post extends Model__DB {
-    //put your code here
+    
+    /**
+     *
+     * @var type string
+     */
     private $tresc;
     
+    /**
+     *
+     * @var type date
+     */
     private $data;
     
+    /**
+     *
+     * @var type string
+     */
     private $status;
     
+    /**
+     *
+     * @var type int
+     */
     private $id_user;
     
+    /**
+     *
+     * @var type int
+     */
     private $id_topic;
     
+    /**
+     *
+     * @var type string
+     */
     private $user_name;
 
 
@@ -52,15 +71,15 @@ class Model__Post extends Model__DB {
     }
 
     public function getTresc() {
-        return $this->tresc;
+        return strip_tags($this->tresc);
     }
 
     public function getData() {
-        return $this->data;
+        return strip_tags($this->data);
     }
 
     public function getStatus() {
-        return $this->status;
+        return strip_tags($this->status);
     }
 
     public function getId_user() {
@@ -72,13 +91,16 @@ class Model__Post extends Model__DB {
     }
     
     public function getUser_name() {
-        return $this->user_name;
+        return strip_tags($this->user_name);
     }
     
     public function setUser_name($user_name) {
         $this->user_name = $user_name;
     }
 
+    /**
+     * Zapisuje obecny obiekt do bazy danych
+     */
     public function save() {
         
         if (strlen($this->tresc) > 0) {
@@ -99,6 +121,9 @@ class Model__Post extends Model__DB {
             
     }
     
+    /**
+     * Aktualizuje obiekt w bazie danych
+     */
     public function update() {
         
         $stmt = $this->pdo->prepare("
@@ -109,12 +134,17 @@ class Model__Post extends Model__DB {
         $stmt->bindValue(':tresc', $this->tresc, PDO::PARAM_STR);
         $stmt->bindValue(':data', $this->data, PDO::PARAM_STR);  
         $stmt->bindValue(':status', $this->status, PDO::PARAM_STR);  
-        $stmt->bindValue(':id_user', $this->id_user, PDO::PARAM_STR);  
-        $stmt->bindValue(':id_topic', $this->id_topic, PDO::PARAM_STR);  
+        $stmt->bindValue(':id_user', $this->id_user, PDO::PARAM_INT);  
+        $stmt->bindValue(':id_topic', $this->id_topic, PDO::PARAM_INT);  
         
         $stmt->execute(); 
     }
     
+    /**
+     * Szuka na podstawie parametrów obiektu w bazie danych
+     * @param array $parametry
+     * @return boolean
+     */
     public function find($parametry) {
         $zapytanie = "SELECT * FROM $this->table WHERE ";
         
@@ -134,22 +164,30 @@ class Model__Post extends Model__DB {
         $post = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if(count($post) == 1) {
             $this->id = $post[0]['id'];
-            $this->tresc = $post[0]['tresc'];
-            $this->data = $post[0]['data'];
-            $this->status = $post[0]['status'];
-            $this->id_user = $post[0]['id_user'];
-            $this->id_topic = $post[0]['id_topic'];
+            $this->tresc = strip_tags($post[0]['tresc']);
+            $this->data = strip_tags($post[0]['data']);
+            $this->status = strip_tags($post[0]['status']);
+            $this->id_user = strip_tags($post[0]['id_user']);
+            $this->id_topic = strip_tags($post[0]['id_topic']);
             
             return true;
         }
         return false;
     }
     
+    /**
+     * Zwaraca osobę która napisała post
+     * @return Model__User
+     */
     public function getUser() {
         $user = new Model__User();
         return $user->find($this->id);
     }
     
+    /**
+     * Zwraca temat w którym został napisany post
+     * @return Model__Topic
+     */
     public function getTopic() {
         $topic = new Model__Topic();
         return $topic->find($this->id);
