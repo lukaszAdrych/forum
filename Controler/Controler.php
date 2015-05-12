@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 
 /**
@@ -136,7 +135,6 @@ abstract class Controler__Controler {
         $user = new Model__User();
         $user->find(array('nick=' => $nick,
             'hash_haslo=' => $haslo,
-            'status<>' => "'nowy'",
             ));
             
         if($user->getId() != null) {
@@ -144,7 +142,7 @@ abstract class Controler__Controler {
             $this->tablica_session['zalogowany'] = true;
             $this->tablica_session['user'] = $user->getNick();
             $this->tablica_session['id'] = $user->getId();
-            $this->tablica_session['status'] = $user->getStatus();
+            //$this->tablica_session['status'] = $user->getStatus();
             $this->czy_blad = false;
             
         } else {
@@ -163,7 +161,6 @@ abstract class Controler__Controler {
         $this->tablica_session['zalogowany'] = false;
         $this->tablica_session['user'] = '';
         $this->tablica_session['id'] = '';
-        $this->tablica_session['status'] = '';
     }
     
 }

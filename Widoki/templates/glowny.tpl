@@ -1,74 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="Content-Language" content="pl" />
-  <link rel="stylesheet" href="{$style}" type="text/css" />
-  <title>Zadanie testowe</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="{$style}" type="text/css" />
+    <title>Przeglądarka kontktów</title>
 </head>
 
 <body>
-
-<div id="kontener">
-    <div id="logo">
-        <div id='logowanie'>
-            
-            <table cellpadding="0" cellspacing="0" class="brd">
-            <tr><td class="m">Logowanie:</td></tr>
-      
-            <tr><td><div class="linki">
-               <form method="post">
-                {if $zalogowany}
-                    Witaj <b>{$user}</b>
+<div id="top">
+    <div id="naglowek"><h1>Spis kontaktów</h1></div>
+    <div id="logowanie">
+        <form method="post">
+            {if $zalogowany}
+                Witaj <b>{$user}</b>
                 <form method="post">
                     <input type="hidden" name="wyloguj" value="tak">
-                        <input class="button" type="submit" value="Wyloguj">
+                    <input class="button" type="submit" value="Wyloguj">
                 </form>
-                {else}
-                    Login: <input style="margin-bottom: 4px;" type="text" name="nick">
-                    Hasło: <input style="margin-bottom: 4px;" type="password" name="haslo">
-                    <input class="button" type="submit" style="color: black; left: 40px;" value="Zaloguj">
-                     {if $czy_blad}
-                         Zły login, hasło, lub twoje konto nie jest aktywne
-                     {/if}
-                    
+            {else}
+                Login: <input style="margin-bottom: 4px;" type="text" name="nick">
+                Hasło: <input style="margin-bottom: 4px;" type="password" name="haslo">
+                <input class="button" type="submit" style="color: black; left: 40px;" value="Zaloguj">
+                {if $czy_blad}
+                    Zły login lub hasło.
                 {/if}
-            </form>             
-            </div>
-            </td></tr>
-        </table>
-        </div>
+
+            {/if}
+        </form>
     </div>
-<div id="menu">
- <a href="/">Strona Główna</a>
- {if $zalogowany}
- <a href="/konto/{$id}">Moje konto</a>
- {/if}
- <a href="/rejestracja">Rejestracja</a>
+    <div id="tresc">Treść strony</div>
+    <div id="stopka">Stopka serwisu</div>
 </div>
-<div id="tresc">
-    {if $katalog eq ""}
-        {include file='strona_glowna.tpl'}
-    {elseif $katalog eq "rejestracja"}
-        {include file='rejestracja.tpl'}
-    {elseif $katalog eq "temat"}
-        {include file='strona_temat.tpl'}
-    {elseif $katalog eq "konto"}
-        {include file='strona_konto.tpl'}
-    {elseif $katalog eq "aktywacja"}
-        {include file='strona_aktywacja.tpl'}
-    {else}
-        {include file='blad.tpl'}
-    {/if}
-</div>
-</div>
-
-<div id="stopka">
-<div id="copyright">Copyright by Ty</div>
-<div id="design">Design by <a href="http://www.flankerds.com" target="_blank">flankerds.com</a></div>
-</div>    
 </body>
+
 </html>
-
-
-        

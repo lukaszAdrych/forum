@@ -5,10 +5,10 @@
  */
 
 
-$host = "mysql.cba.pl";
+$host = "localhost";
 
-$nazwa_bazy = "luuuk_cba_pl";
+$nazwa_bazy = "baza";
 
-$user = 'lukasz26';
+$user = 'lukasz';
 
-$haslo = 'mamlokus';
+$haslo = '12345678';
