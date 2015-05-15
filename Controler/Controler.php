@@ -142,12 +142,10 @@ abstract class Controler__Controler {
             $this->tablica_session['zalogowany'] = true;
             $this->tablica_session['user'] = $user->getNick();
             $this->tablica_session['id'] = $user->getId();
-            //$this->tablica_session['status'] = $user->getStatus();
             $this->czy_blad = false;
             
         } else {
             $this->czy_blad = true;
-            //$this->tablica_session['zalogowany'] = false;
         }
         
         

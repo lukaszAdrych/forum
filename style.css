@@ -34,8 +34,51 @@ html, body {
     background-color: #fff;
 }
 
-#stopka {
-    clear: both;
-    width: 100%;
-    background-color: #888;
+#spis {
+    width: 250px;
+    height: 500px;
+    float: left;
+}
+
+#konkretny_kontakt {
+    width: 280px;
+    float: right;
+    background-color: darkgrey;
+    padding: 5px;
+}
+
+.kontakt {
+    width: 200px;
+    height: 25px;
+    margin: 5px;
+    padding: 10px;
+    background-color: burlywood;
+}
+
+div.kontakt:hover {
+    width: 200px;
+    height: 25px;
+    margin: 5px;
+    padding: 10px;
+    background-color: #9B410E;
+}
+
+
+.link {
+    width: 200px;
+    height: 25px;
+    margin: 5px;
+    padding: 10px;
+    background-color: grey;
+}
+
+.poprawne {
+    color: green;
+    font-weight: 600;
+}
+
+.niepoprawne {
+    color: red;
+    font-weight: 800;
+    font-size: 16px;
 }

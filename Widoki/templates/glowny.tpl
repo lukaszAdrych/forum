@@ -14,7 +14,7 @@
             {if $zalogowany}
                 Witaj <b>{$user}</b>
                 <form method="post">
-                    <input type="hidden" name="wyloguj" value="tak">
+                    <input id="wyloguj" type="hidden" name="wyloguj" value="tak">
                     <input class="button" type="submit" value="Wyloguj">
                 </form>
             {else}
@@ -28,8 +28,20 @@
             {/if}
         </form>
     </div>
-    <div id="tresc">Treść strony</div>
-    <div id="stopka">Stopka serwisu</div>
+    <div id="tresc">
+
+
+        {if $katalog eq ""}
+            {include file='kontakty.tpl'}
+        {elseif $katalog eq "dodaj"}
+            {include file='dodaj.tpl'}
+        {elseif $katalog eq "edytuj"}
+            {include file='edytuj.tpl'}
+        {else}
+            {include file='blad.tpl'}
+        {/if}
+
+    </div>
 </div>
 </body>
 

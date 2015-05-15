@@ -121,7 +121,40 @@ class Model__User extends Model__DB {
         }
         return false;
     }
-    
+
+    public function getKontakty($wszystkie = false) {
+
+        if($wszystkie == true) {
+            $zapytanie = "SELECT * FROM kontakt";
+        } else {
+            $zapytanie = "SELECT * FROM kontakt WHERE id_user = $this->id";
+        }
+
+        $stmt = $this->pdo->prepare($zapytanie);
+        $stmt->execute();
+        $kontakty = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        return $this->zmienNaObiekty($kontakty);
+    }
+
+    private function zmienNaObiekty($kontakty) {
+        $tablica_kontaktow = array();
+        foreach($kontakty as $val) {
+            $kontakt = new Model__Kontakt();
+            $kontakt->setId($val['id']);
+            $kontakt->setImie($val['imie']);
+            $kontakt->setNazwisko($val['nazwisko']);
+            $kontakt->setEmail($val['email']);
+            $kontakt->setTelefon($val['telefon']);
+            $kontakt->setDataUrodzenia($val['data_urodzenia']);
+            $kontakt->setIdUser($val['id_user']);
+
+            $tablica_kontaktow[] = $kontakt;
+        }
+
+        return $tablica_kontaktow;
+    }
 
 
 }

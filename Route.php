@@ -37,35 +37,25 @@ class Route {
      * Metoda określa który kontroler ma zostać wywołany
      */
     public function uruchomController() {
-        
+
         switch ($this->katalog) {
             case "":
                 $controler = new Controler__Glowna($this->katalog);
                 $controler->wykonaj();
                 
                 break;
-            case "rejestracja":
-                $controler = new Controler__Rejestracja($this->katalog);
+            case "dodaj":
+                $controler = new Controler__Dodaj($this->katalog);
                 $controler->wykonaj();
                 
                 break;
-            case "temat":
+            case "edytuj":
                 
-                $controler = new Controler__Topic($this->katalog, $this->parametr);
+                $controler = new Controler__Edytuj($this->katalog, $this->parametr);
                 $controler->wykonaj();
                 
                 break;
-            case "konto":
-                
-                $controler = new Controler__Konto($this->katalog, $this->parametr);
-                $controler->wykonaj();
-                
-                break;
-            case "aktywacja":
-                
-                $controler = new Controler__Aktywacja($this->katalog);
-                $controler->wykonaj();
-                break;
+
             
             default :
                 $controler = new Controler__Blad($this->katalog);

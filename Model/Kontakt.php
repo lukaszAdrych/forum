@@ -20,6 +20,11 @@ class Model__Kontakt extends Model__DB {
 
     public $id_user;
 
+    public function __construct() {
+        $this->table = strtolower(substr(__CLASS__, 7));
+        parent::__construct();
+    }
+
     /**
      * @param mixed $imie
      */
@@ -122,7 +127,7 @@ class Model__Kontakt extends Model__DB {
         if (strlen($this->nazwisko) > 0) {
 
             $stmt = $this->pdo->prepare("
-                INSERT into post (nazwisko, imie, email, telefon, data_urodzenia, id_user)
+                INSERT into kontakt (nazwisko, imie, email, telefon, data_urodzenia, id_user)
                 VALUES (:nazwisko, :imie, :email, :telefon, :data_urodzenia, :id_user)"
             );
 
@@ -141,7 +146,7 @@ class Model__Kontakt extends Model__DB {
     public function update() {
 
         $stmt = $this->pdo->prepare("
-                UPDATE post SET nazwisko=:nazwisko, imie=:imie, email=:email,
+                UPDATE kontakt SET nazwisko=:nazwisko, imie=:imie, email=:email,
                 telefon=:telefon, data_urodzenia=:data_urodzenia, id_user=:id_user WHERE id = $this->id"
         );
 
@@ -185,6 +190,41 @@ class Model__Kontakt extends Model__DB {
             return true;
         }
         return false;
+    }
+
+    public function getUserHtml($zalogowany = true) {
+        $string = "<table>";
+        $this->wrzucDoTabeli('Imię:', $this->imie, $string);
+        $this->wrzucDoTabeli('Nazwisko:', $this->nazwisko, $string);
+        $this->wrzucDoTabeli('Email:', $this->email, $string);
+        $this->wrzucDoTabeli('Telefon:', $this->telefon, $string);
+        $this->wrzucDoTabeli('Data urodzenia:', $this->data_urodzenia, $string);
+
+        $string = $string . "</table>";
+        if($zalogowany == true) {
+            $this->dodajLinkEdycja($string);
+            $this->dodajFormularzUsun($string);
+        }
+        return $string;
+    }
+
+    private function wrzucDoTabeli($nazwa, $wartosc, &$string) {
+
+        $wiersz = "<tr><td>" . $nazwa . "</td><td>" . $wartosc . "</td></tr>";
+        $string = $string . $wiersz;
+
+    }
+
+    private function dodajLinkEdycja(&$string) {
+        $wiersz = "<a href=\"edytuj/" . $this->id . "\">Edytuj kontakt</a>";
+        $string = $string . $wiersz;
+    }
+
+    private function dodajFormularzUsun(&$string) {
+        $wiersz = "<form method=\"post\"><input type=\"hidden\" name=\"usun\" value=\"" . $this->id . "\">" .
+            "<input type=\"submit\" value=\"Usuń\"></form>";
+        $string = $string . $wiersz;
+
     }
 
 
