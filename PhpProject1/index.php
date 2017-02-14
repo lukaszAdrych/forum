@@ -15,3 +15,13 @@ and open the template in the editor.
         ?>
     </body>
 </html>
+
+
+<?php
+
+function generujLink($nazwa, $id)
+{
+    $nazwa = str_replace(" ", "-", $nazwa);
+    $nazwa = strtolower($nazwa);
+    return "/produkty/" . $nazwa . "-p" . $id . ".html";
+}
